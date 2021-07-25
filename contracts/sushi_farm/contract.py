@@ -66,6 +66,26 @@ class MyScaffoldContract(Contract):
         return tx
 
     @classmethod
+    def poolLength(
+        cls, ledger_api: LedgerApi, contract_address: str, **kwargs: Any
+    ) -> JSONLike:
+        """
+        Handler method for the 'GET_RAW_TRANSACTION' requests.
+
+        Implement this method in the sub class if you want
+        to handle the contract requests manually.
+
+        :param ledger_api: the ledger apis.
+        :param contract_address: the contract address.
+        :param kwargs: the keyword arguments.
+        :return: the tx  # noqa: DAR202
+        """
+        instance = cls.get_instance(ledger_api, contract_address)
+
+        result = instance.functions.poolLength().call()
+        return {"result": result}
+
+    @classmethod
     def pendingSushi(
         cls, ledger_api: LedgerApi, contract_address: str, **kwargs: Any
     ) -> JSONLike:
@@ -86,7 +106,7 @@ class MyScaffoldContract(Contract):
         pid = kwargs.get('pid')
 
         result = instance.functions.pendingSushi(pid, address).call()
-        return {"result": result}
+        return {"pid": pid, "amt": result}
 
     @classmethod
     def get_raw_transaction(

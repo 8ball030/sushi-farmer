@@ -1,0 +1,4 @@
+ethereum_private_key.txt
+*.ipynb
+.history
+__pycache__

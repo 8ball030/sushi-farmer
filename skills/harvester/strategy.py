@@ -21,6 +21,17 @@
 
 from aea.skills.base import Model
 from aea.helpers.transaction.base import Terms
+from enum import Enum
+
+
+class RewardPools():
+    pid = None
+    pending_sushi = None
+
+    
+class AssetPools(Enum):
+    base_contract_address = None
+    counter_contract_address = None
 
 class Strategy(Model):
     """This class scaffolds a model."""
@@ -31,10 +42,11 @@ class Strategy(Model):
     def __init__(self, *args, **kwargs):
         self.reward_contract_address = kwargs.pop("reward_contract_address")
         self.min_sushi = kwargs.pop("min_sushi")
-        self.pending_sushi = 0
+        self.pending_sushi_pools = {}
         self.transacting = False
         self.failed_txs = 0
         self.balance = 0
+        self.total_pids = 0
         super().__init__(*args, **kwargs)
 
     def setup(self) -> None:

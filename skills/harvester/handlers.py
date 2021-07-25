@@ -274,17 +274,22 @@ class ContractApiHandler(Handler):
         elif contract_api_msg.performative == ContractApiMessage.Performative.ERROR:
             self._handle_error(contract_api_msg, contract_api_dialogue)
         elif contract_api_msg.performative == ContractApiMessage.Performative.STATE:
-            self._handle_state_update(contract_api_msg)
+            self._handle_state_update(contract_api_msg, contract_api_dialogue)
         else:
             self._handle_invalid(contract_api_msg, contract_api_dialogue)
 
             
-    def _handle_state_update(self, contract_api_msg):
+    def _handle_state_update(self, contract_api_msg, contract_api_dialogue):
         strategy = cast(Strategy, self.context.strategy)
-        if strategy.pending_sushi == 0:
-            strategy.pending_sushi = contract_api_msg.state.body["result"]
-            self.context.logger.info(f"Sushi Pending harvest {strategy.pending_sushi}")
-        strategy.pending_sushi = contract_api_msg.state.body["result"]
+        if contract_api_dialogue.last_outgoing_message.callable == "poolLength":
+            strategy.total_pids = contract_api_msg.state.body["result"]
+            self.context.logger.info(f"Total pools paying sushi rewards {strategy.total_pids}")
+        elif contract_api_dialogue.last_outgoing_message.callable == "pendingSushi":
+            pid = contract_api_dialogue.last_outgoing_message.kwargs.body.get('pid')
+            amt = contract_api_msg.state.body.get('amt')
+            if amt > 0:
+                strategy.pending_sushi_pools[pid] = amt
+                self.context.logger.info(f"Sushi Pending harvest {pid} - {amt}")
         
         
 
