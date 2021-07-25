@@ -1,0 +1,43 @@
+agent_name: sushi_farmer
+author: eightballer
+version: 0.1.0
+license: Apache-2.0
+description: ''
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint: {}
+fingerprint_ignore_patterns: []
+connections:
+- fetchai/ledger:0.18.0
+contracts:
+- eightballer/sushi_farm:0.1.0
+protocols:
+- fetchai/contract_api:1.0.0
+- fetchai/default:1.0.0
+- fetchai/fipa:1.0.0
+- fetchai/ledger_api:1.0.0
+- fetchai/signing:1.0.0
+- fetchai/state_update:1.0.0
+skills:
+- eightballer/harvester:0.1.0
+default_ledger: ethereum
+required_ledgers:
+- ethereum
+default_routing:
+  fetchai/contract_api:1.0.0: fetchai/ledger:0.18.0
+  fetchai/ledger_api:1.0.0: fetchai/ledger:0.18.0
+connection_private_key_paths: {}
+private_key_paths:
+  ethereum: ethereum_private_key.txt
+logging_config:
+  disable_existing_loggers: false
+  version: 1
+dependencies:
+  aea-ledger-fetchai: {}
+default_connection: null
+---
+public_id: fetchai/ledger:0.18.0
+type: connection
+config:
+  ledger_apis:
+    ethereum:
+      address: https://rpc-mainnet.matic.network
