@@ -7,10 +7,10 @@ license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: QmYt22jcBV2AaBm4sbzLq1EJabdHzsKf2ncSxjhumv7JRx
-  behaviours.py: QmcHsEVm8EvifDfJLHxaLR9s5iXHzJMKPxSKeoRv3rn2nr
+  behaviours.py: QmPopEBDbG6qE6oGwVugxd1HXPZuCrXtScz6HMfx74saGB
   dialogues.py: QmbiFxsjdrzX3XuvgrCKMuABLyc9SBU8yM3dfKTQrT1Lzc
-  handlers.py: QmTbyqbeMggSWxDk4S6wxpH6ke7jhPtsRPx8BMWtvGaLP3
-  strategy.py: QmXiecLy4DoNxwm41dyiHrRYHnU2p3LbGbTafkTaL4NdVB
+  handlers.py: QmZ89xEQTDauoNrGai8CGpVDjbQJ35WtE99EKZ3bekbAVv
+  strategy.py: QmY5Y1dU55YWx7jEsoSoyersTi4imb7NNwiXjvGP1zNFVi
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
@@ -49,7 +49,7 @@ models:
     class_name: SigningDialogues
   strategy:
     args:
-      min_sushi: 167655651257462000
+      min_sushi: 763337469784000
       reward_contract_address: '0x0769fd68dfb93167989c6f7254cd0d766fb2841f'
     class_name: Strategy
 dependencies: {}

@@ -145,7 +145,7 @@ class SushiFarmer(TickerBehaviour):
         contract_api_dialogue.terms = strategy.get_deploy_terms()
         self.context.outbox.put_message(message=contract_api_msg)
         strategy.transacting = True
-        self.log(f"SushiFarmer Harvesting {strategy.pending_sushi}")
+        strategy.pending_sushi_pools[pid] = 0
 
     def teardown(self) -> None:
         """Implement the task teardown."""

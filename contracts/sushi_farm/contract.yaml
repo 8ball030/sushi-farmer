@@ -7,7 +7,7 @@ license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   __init__.py: QmPBwWhEg3wcH1q9612srZYAYdANVdWLDFWKs7TviZmVj6
-  contract.py: QmdmfFwQ16o9Y5YMAhKxf5RcLb33JZRahsvygJMRMGU2cw
+  contract.py: Qma5iVEGHGTf8rsygUcxLqusQmU5CARpBXBkGeDeK6qcZD
   sushi_farm.json: QmUtMio7FqnYrqoQ1UytK9nfvPwvXi47aP42K91KhXWCTr
 fingerprint_ignore_patterns: []
 class_name: MyScaffoldContract
