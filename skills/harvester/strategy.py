@@ -22,16 +22,27 @@
 from aea.skills.base import Model
 from aea.helpers.transaction.base import Terms
 from enum import Enum
+from web3 import Web3
 
 
-class RewardPools():
+class Farms():
     pid = None
     pending_sushi = None
+    lp_token = None
 
     
-class AssetPools(Enum):
+class LiquidityProviderToken():
+    address = None
     base_contract_address = None
     counter_contract_address = None
+    token0 = None
+    token1 = None
+
+class Token():
+    name = None
+    symbol = None
+    address = None
+    
 
 class Strategy(Model):
     """This class scaffolds a model."""
@@ -41,7 +52,7 @@ class Strategy(Model):
     
     def __init__(self, *args, **kwargs):
         self.reward_contract_address = kwargs.pop("reward_contract_address")
-        self.min_sushi = kwargs.pop("min_sushi")
+        self.min_sushi = Web3.toWei(kwargs.pop("min_sushi"), "ether")
         self.pending_sushi_pools = {}
         self.transacting = False
         self.failed_txs = 0

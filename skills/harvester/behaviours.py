@@ -18,6 +18,7 @@
 # ------------------------------------------------------------------------------
 
 """This package contains a scaffold of a behaviour."""
+from datetime import datetime, timedelta
 
 from aea.skills.behaviours import TickerBehaviour
 from packages.fetchai.protocols.ledger_api.message import LedgerApiMessage
@@ -31,7 +32,7 @@ from typing import cast
 from packages.fetchai.connections.ledger.base import (
     CONNECTION_ID as LEDGER_CONNECTION_PUBLIC_ID,
 )
-
+from web3 import Web3 
 from aea.helpers.transaction.base import Terms
 LEDGER_API_ADDRESS = str(LEDGER_CONNECTION_PUBLIC_ID)
 
@@ -71,6 +72,7 @@ class SushiFarmer(TickerBehaviour):
         self.log = self.context.logger.info
         self.log(f"SushiFarmer started")
         self._check_pids()
+        self.last_amt = {}
 
     def _check_balance(self):
         strategy = cast(Strategy, self.context.strategy)
@@ -123,6 +125,12 @@ class SushiFarmer(TickerBehaviour):
             if amt > strategy.min_sushi:
                 self.log(f"Harvesting sushi! {pid} {amt}")
                 self._harvest_sushi(pid)
+                return
+            if self.last_amt.get(pid, False):
+                remaining_seconds = (((strategy.min_sushi - amt) / (amt - self.last_amt[pid])) * self.service_interval)
+                harvest_eta = datetime.now() + timedelta(seconds=remaining_seconds)
+                self.log(f"Harvest projected for pool {pid} @ {harvest_eta}")
+            self.last_amt[pid] = amt
             
 
     def _harvest_sushi(self, pid) -> None:

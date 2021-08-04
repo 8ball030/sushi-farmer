@@ -26,11 +26,26 @@ from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
 from aea.crypto.base import LedgerApi
 
+import requests 
+import json
 
 class MyScaffoldContract(Contract):
     """The scaffold contract class for a smart contract."""
 
     contract_id = PublicId.from_str("fetchai/scaffold:0.1.0")
+    
+    @classmethod
+    def update_with_gas_estimate(cls, tx, w3):
+        def get_gas_price(speed="safeLow"):
+            gas_url = "https://gasstation-mainnet.matic.network/"
+            res = json.loads(requests.get(gas_url).content)
+            print(res)
+            return int(res[speed])
+        price = get_gas_price()
+        tx['gas'] = int(tx['gas'] * price)
+        tx['gasPrice'] = w3.toWei(price, "gwei")
+        return tx
+        
 
     @classmethod
     def harvest(
@@ -61,8 +76,7 @@ class MyScaffoldContract(Contract):
                 "gasPrice": ledger_api.api.toWei('2', "gwei"),
              }
         )
-        # tx = ledger_api.update_with_gas_estimate(tx)
-        tx['gas'] = 129414
+        tx = cls.update_with_gas_estimate(tx, ledger_api.api)
         return tx
 
     @classmethod

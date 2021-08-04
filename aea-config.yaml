@@ -40,4 +40,4 @@ type: connection
 config:
   ledger_apis:
     ethereum:
-      address: https://rpc-mainnet.matic.network
+      address: https://rpc-mainnet.maticvigil.com/v1/a87e6ceabb9d5751049a514b9d9c57d1b10237c5
